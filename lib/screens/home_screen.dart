@@ -60,6 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void onResetPressed() {
+    timer.cancel();
+
+    setState(() {
+      isRunning = false;
+      totalSeconds = wenttyFiveMinutes;
+    });
+  }
+
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
     print(duration.toString());
@@ -84,23 +93,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 format(totalSeconds),
                 style: TextStyle(
                   color: Theme.of(context).cardColor,
-                  fontSize: 89,
+                  fontSize: 110,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ),
           ),
           Flexible(
-            flex: 3,
-            child: Center(
-              child: IconButton(
-                iconSize: 120,
-                color: Theme.of(context).cardColor,
-                onPressed: isRunning ? onPausePressed : onStartPressed,
-                icon: Icon(isRunning
-                    ? Icons.pause_circle_outline
-                    : Icons.play_circle_outline),
-              ),
+            flex: 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: IconButton(
+                    iconSize: 120,
+                    color: Theme.of(context).cardColor,
+                    onPressed: isRunning ? onPausePressed : onStartPressed,
+                    icon: Icon(isRunning
+                        ? Icons.pause_circle_outline
+                        : Icons.play_circle_outline),
+                  ),
+                ),
+                Center(
+                  child: IconButton(
+                    iconSize: 120,
+                    color: Theme.of(context).cardColor,
+                    onPressed: onResetPressed,
+                    icon: const Icon(Icons.restore_outlined),
+                  ),
+                ),
+              ],
             ),
           ),
           Flexible(
@@ -126,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Text(
-                          '$totalPomodoros',
+                          '$totalPomodoros회',
                           style: TextStyle(
                             fontSize: 57,
                             fontWeight: FontWeight.w600,
